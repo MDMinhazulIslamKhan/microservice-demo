@@ -1,0 +1,20 @@
+node_modules
+
+# environment file
+.env
+ecosystem.config.js
+
+# build file
+dist
+
+# documentation
+docs
+
+# logs
+logs/errors/*
+!logs/errors/.gitkeep
+logs/successes/*
+!logs/successes/.gitkeep
+
+
+*.pem
