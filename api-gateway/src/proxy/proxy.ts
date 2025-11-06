@@ -123,7 +123,7 @@ export const createProxyOptions = (service: ServiceConfig): Options => ({
         { label: 'ProxyRequest' }
       );
 
-      proxyReq.setHeader('X-Forwarded-By', 'tp-api-gateway');
+      proxyReq.setHeader('X-Forwarded-By', 'microservice-gateway');
       proxyReq.setHeader('X-Req-Id', req.id);
 
       if (req.user) {
