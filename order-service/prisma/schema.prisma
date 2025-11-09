@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  // output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  userId    String    @id @default(uuid()) @db.Uuid
+  syncId    String    @unique @db.VarChar(50)
+  email     String    @unique @db.VarChar(255)
+  name      String    @db.VarChar(150)
+  role      UserRoles @default(USER)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  orders Order[]
+
+  @@map("users")
+}
+
+model Product {
+  productId String   @id @default(uuid()) @db.Uuid
+  syncId    String   @unique @db.VarChar(50)
+  name      String   @db.VarChar(150)
+  price     Decimal  @db.Decimal(10, 2)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  orders Order[]
+
+  @@map("products")
+}
+
+model Order {
+  orderId     String      @id @default(uuid()) @db.Uuid
+  productId   String      @db.Uuid
+  userId      String      @db.Uuid
+  quantity    Int
+  totalPrice  Decimal     @db.Decimal(10, 2)
+  orderStatus OrderStatus @default(PENDING)
+  product     Product     @relation(fields: [productId], references: [productId], onDelete: Restrict)
+  user        User        @relation(fields: [userId], references: [userId], onDelete: Restrict)
+
+  @@index([productId])
+  @@index([userId])
+  @@index([quantity])
+  @@map("orders")
+}
+
+enum UserRoles {
+  ADMIN
+  USER
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  CANCELLED
+  COMPLETED
+}
