@@ -1,18 +1,12 @@
-type Env = {
-  KAFKA_BROKERS: string; // comma separated
-  NUMBER_OF_PARTITION?: string;
-  REPLICATION_FACTOR?: string;
-};
+import config from '.';
 
-const env = process.env as unknown as Env;
-
-const brokers = env.KAFKA_BROKERS.split(',').map(b => b.trim());
+const brokers = config.kafka_brokers?.split(',').map(b => b.trim());
 
 const kafkaConfig = {
-  clientId: 'auth-service',
+  clientId: 'product-service',
   brokers,
-  numPartitions: Number(env.NUMBER_OF_PARTITION) || 12,
-  replicationFactor: Number(env.REPLICATION_FACTOR) || 3,
+  numPartitions: Number(config.number_of_partition) || 12,
+  replicationFactor: Number(config.replication_factor) || 3,
 };
 
 export default kafkaConfig;

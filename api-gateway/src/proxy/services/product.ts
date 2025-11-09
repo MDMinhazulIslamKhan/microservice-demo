@@ -14,7 +14,7 @@ const defaultProxy = buildProxyMiddleware({
   },
 });
 
-router.post('/public', defaultProxy);
+router.use('/public', defaultProxy);
 
 router.use(auth(), defaultProxy);
 

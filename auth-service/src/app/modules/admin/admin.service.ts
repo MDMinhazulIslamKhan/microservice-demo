@@ -1,5 +1,6 @@
 import { UserRoles } from '@prisma/client';
 import prisma from '../../../shared/prisma';
+import { UserEvents } from '../user/user.events';
 
 const allUsers = async () => {
   const result = await prisma.user.findMany({
@@ -34,6 +35,8 @@ const createAdmin = async (userId: string) => {
     where: { userId: userId },
     data: { role: UserRoles.ADMIN },
   });
+
+  await UserEvents.publishUserUpdated({ id: userId, role: UserRoles.ADMIN });
 };
 export const AdminService = {
   allUsers,

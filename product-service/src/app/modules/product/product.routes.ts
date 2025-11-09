@@ -14,15 +14,18 @@ router.post(
   ProductController.createProduct
 );
 
-router.post('/all-products', ProductController.allProducts);
+router.get('/public/all-products', ProductController.allProducts);
 
-router.post(
+router.patch(
   '/update-product/:productId',
   userContext(ENUM_USER_ROLE.ADMIN),
   validateRequest(ProductValidation.updateProductZodSchema),
   ProductController.updateProduct
 );
 
-router.post('/product-details/:productId', ProductController.productDetails);
+router.get(
+  '/public/product-details/:productId',
+  ProductController.productDetails
+);
 
 export const ProductRoutes = router;

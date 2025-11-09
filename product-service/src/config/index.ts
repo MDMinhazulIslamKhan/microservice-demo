@@ -14,6 +14,16 @@ const envSchema = z.object({
     .string({ error: 'Port is required.' })
     .regex(/^\d+$/, { message: 'Port must be a number.' })
     .transform(Number),
+  NUMBER_OF_PARTITION: z
+    .string()
+    .regex(/^\d+$/, { message: 'Partition must be a number.' })
+    .optional()
+    .transform(Number),
+  REPLICATION_FACTOR: z
+    .string()
+    .regex(/^\d+$/, { message: 'Replication factor must be a number.' })
+    .optional()
+    .transform(Number),
 });
 
 const parsedEnv = envSchema.safeParse(process.env);
@@ -49,4 +59,7 @@ export default {
   env: env.NODE_ENV,
   port: env.PORT,
   database_url: env.DATABASE_URL,
+  kafka_brokers: env.KAFKA_BROKERS,
+  number_of_partition: env.NUMBER_OF_PARTITION,
+  replication_factor: env.REPLICATION_FACTOR,
 };

@@ -42,6 +42,14 @@ router.post(
   authModuleProxy
 );
 
+router.patch(
+  '/change-password',
+  authLimiter,
+  auth(),
+  validateRequest(AuthValidation.changePasswordZodSchema),
+  authModuleProxy
+);
+
 router.post('/refresh-token', authModuleProxy);
 
 router.use(defaultProxy);
