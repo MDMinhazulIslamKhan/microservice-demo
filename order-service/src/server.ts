@@ -2,8 +2,11 @@ import { Server } from 'http';
 import app from './app';
 import config from './config/index';
 import { errorLogger, logger } from './utils/logger';
+import { Consumer } from 'kafkajs';
+import { startAllConsumers } from './kafka/subscriptions';
 
 let server: Server;
+const consumers: Consumer[] = [];
 
 process.on('uncaughtException', (error: unknown) => {
   const errorMessage =
@@ -17,6 +20,14 @@ process.on('uncaughtException', (error: unknown) => {
 
 async function main() {
   try {
+    // kafka consumers
+    const runningConsumers = await startAllConsumers();
+    consumers.push(...runningConsumers);
+
+    logger.info('All consumers started', {
+      label: 'Kafka',
+    });
+
     // server
     server = app.listen(config.port, () => {
       logger.info(

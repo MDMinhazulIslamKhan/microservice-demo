@@ -8,7 +8,7 @@ import validateRequest from '../../middleware/validateRequest';
 const router = express.Router();
 
 router.post(
-  '/',
+  '/create-order',
   validateRequest(OrderValidation.createOrderZodSchema),
   userContext(),
   OrderController.createOrder

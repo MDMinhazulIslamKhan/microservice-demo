@@ -38,8 +38,16 @@ const createOrder = async (
 };
 
 const allOrders = async (userInfo: UserInfoFromToken) => {
+  const checkUser = await prisma.user.findUnique({
+    where: { syncId: userInfo.id },
+  });
+
+  if (!checkUser) {
+    throw new ApiError(401, "You don't have access.");
+  }
+
   const data = await prisma.order.findMany({
-    where: { userId: userInfo.id },
+    where: { userId: checkUser.userId },
     select: {
       product: {
         select: {
@@ -129,10 +137,13 @@ const singleOrder = async (orderId: string, userInfo: UserInfoFromToken) => {
     where: { syncId: userInfo.id },
   });
 
+  if (!checkUser || !checkOrder) {
+    throw new ApiError(401, "You don't have access.");
+  }
+
   if (
-    !checkUser ||
-    checkUser.role !== UserRoles.ADMIN ||
-    checkOrder?.userId !== checkUser.syncId
+    checkUser.role !== UserRoles.ADMIN &&
+    checkOrder?.userId !== checkUser.userId
   ) {
     throw new ApiError(401, "You don't have access.");
   }
@@ -195,6 +206,13 @@ const updateOrderStatus = async (
       `Invalid status transition: cannot move from ${checkOrder.orderStatus} to ${payload.status}.`
     );
   }
+
+  await prisma.order.update({
+    where: {
+      orderId: payload.orderId,
+    },
+    data: { orderStatus: payload.status },
+  });
 };
 
 export const OrderService = {

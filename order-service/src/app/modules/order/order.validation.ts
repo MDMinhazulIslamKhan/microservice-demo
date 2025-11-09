@@ -19,8 +19,8 @@ const updateStatusZodSchema = z.object({
   body: z
     .object({
       orderId: z
-        .string({ error: 'Product id is required.' })
-        .min(6, { message: 'Product id must be at least 6 characters.' }),
+        .string({ error: 'Order id is required.' })
+        .min(6, { message: 'Order id must be at least 6 characters.' }),
       status: z.enum(OrderStatus),
     })
     .strict(),
