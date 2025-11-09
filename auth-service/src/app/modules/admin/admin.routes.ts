@@ -17,4 +17,10 @@ router.get(
   AdminController.userDetails
 );
 
+router.patch(
+  '/create-admin/:userId',
+  userContext(),
+  AdminController.createAdmin
+);
+
 export const AdminRoutes = router;

@@ -1,3 +1,4 @@
+import { UserRoles } from '@prisma/client';
 import prisma from '../../../shared/prisma';
 
 const allUsers = async () => {
@@ -28,7 +29,14 @@ const userDetails = async (userId: string) => {
   });
 };
 
+const createAdmin = async (userId: string) => {
+  await prisma.user.update({
+    where: { userId: userId },
+    data: { role: UserRoles.ADMIN },
+  });
+};
 export const AdminService = {
   allUsers,
   userDetails,
+  createAdmin,
 };

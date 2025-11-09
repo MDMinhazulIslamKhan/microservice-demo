@@ -10,7 +10,7 @@
     "lint:fix": "eslint . --fix"
   },
   "keywords": [],
-  "author": "",
+  "author": "Md. Minhazul Islam Khan",
   "license": "ISC",
   "description": "",
   "dependencies": {

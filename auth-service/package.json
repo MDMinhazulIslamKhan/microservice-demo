@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
-  "author": "softograph",
+  "author": "Md. Minhazul Islam Khan",
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^6.13.0",

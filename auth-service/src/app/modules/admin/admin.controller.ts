@@ -25,7 +25,19 @@ const userDetails = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const createAdmin = catchAsync(async (req: Request, res: Response) => {
+  const result = await AdminService.createAdmin(req.params.userId);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Admin created successfully.',
+    data: result,
+  });
+});
+
 export const AdminController = {
   allUsers,
   userDetails,
+  createAdmin,
 };
