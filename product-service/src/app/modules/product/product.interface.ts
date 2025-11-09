@@ -2,7 +2,6 @@ import { Model, Types } from 'mongoose';
 
 export type IProduct = {
   _id: Types.ObjectId;
-  syncId: string;
   name: string;
   description: string;
   price: number;

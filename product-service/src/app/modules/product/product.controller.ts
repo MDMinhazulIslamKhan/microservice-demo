@@ -32,7 +32,8 @@ const allProducts = catchAsync(async (req: Request, res: Response) => {
 const updateProduct = catchAsync(async (req: Request, res: Response) => {
   const result = await ProductService.updateProduct(
     req.body,
-    req.user as UserInfoFromToken
+    req.user as UserInfoFromToken,
+    req.params.productId
   );
 
   sendResponse(res, {
@@ -43,8 +44,20 @@ const updateProduct = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const productDetails = catchAsync(async (req: Request, res: Response) => {
+  const result = await ProductService.productDetails(req.params.productId);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Product details fetched successfully!',
+    data: result,
+  });
+});
+
 export const ProductController = {
   createProduct,
   allProducts,
   updateProduct,
+  productDetails,
 };

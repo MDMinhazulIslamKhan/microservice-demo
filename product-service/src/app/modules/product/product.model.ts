@@ -3,12 +3,6 @@ import { IProduct, ProductModel } from './product.interface';
 
 const ProductSchema = new Schema<IProduct, ProductModel>(
   {
-    syncId: {
-      type: String,
-      unique: [true, 'Already used this id.'],
-      required: [true, 'Sync id is required.'],
-      maxLength: [50, 'Too big id'],
-    },
     name: {
       type: String,
       index: true,

@@ -23,4 +23,6 @@ router.post(
   ProductController.updateProduct
 );
 
+router.post('/product-details/:productId', ProductController.productDetails);
+
 export const ProductRoutes = router;

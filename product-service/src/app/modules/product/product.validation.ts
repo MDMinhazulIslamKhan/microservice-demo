@@ -49,6 +49,7 @@ const updateProductZodSchema = z.object({
         .min(0, { message: 'Price cannot be negative' })
         .max(5000000, { message: 'Invalid price' })
         .optional(),
+      isActive: z.boolean().optional(),
     })
     .strict(),
 });
